@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+    <entity name="Mension" representedClassName=".Mension" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="keyword" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="term" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SearchTerm" inverseName="mensions" inverseEntity="SearchTerm" syncable="YES"/>
+        <relationship name="tweetMs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetM" inverseName="mensionsTweetM" inverseEntity="TweetM" syncable="YES"/>
+    </entity>
+    <entity name="SearchTerm" representedClassName=".SearchTerm" syncable="YES">
+        <attribute name="term" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="mensions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Mension" inverseName="term" inverseEntity="Mension" syncable="YES"/>
+        <relationship name="tweets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetM" inverseName="terms" inverseEntity="TweetM" syncable="YES"/>
+    </entity>
+    <entity name="TweetM" representedClassName=".TweetM" syncable="YES">
+        <attribute name="posted" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unique" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="mensionsTweetM" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Mension" inverseName="tweetMs" inverseEntity="Mension" syncable="YES"/>
+        <relationship name="terms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SearchTerm" inverseName="tweets" inverseEntity="SearchTerm" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SearchTerm" positionX="-461" positionY="126" width="128" height="88"/>
+        <element name="TweetM" positionX="-434" positionY="393" width="128" height="120"/>
+        <element name="Mension" positionX="-81" positionY="261" width="128" height="120"/>
+    </elements>
+</model>
