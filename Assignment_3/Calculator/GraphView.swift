@@ -7,21 +7,21 @@ import UIKit
 @IBDesignable
 class GraphView: UIView {
     
-    var yForX: (( x: Double) -> Double?)? { didSet { setNeedsDisplay() } }
+    var yForX: (( _ x: Double) -> Double?)? { didSet { setNeedsDisplay() } }
     
     @IBInspectable
     var scale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
     var lineWidth: CGFloat = 2.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
-    var color: UIColor = UIColor.blueColor() { didSet { setNeedsDisplay() } }
+    var color: UIColor = UIColor.blue { didSet { setNeedsDisplay() } }
     
-    var originRelativeToCenter = CGPointZero  { didSet { setNeedsDisplay() } }
+    var originRelativeToCenter = CGPoint.zero  { didSet { setNeedsDisplay() } }
  
-    private var graphCenter: CGPoint {
-        return convertPoint(center, fromView: superview)
+    fileprivate var graphCenter: CGPoint {
+        return convert(center, from: superview)
     }
-   private  var origin: CGPoint  {
+   fileprivate  var origin: CGPoint  {
         get {
             var origin = originRelativeToCenter
             origin.x += graphCenter.x
@@ -36,19 +36,19 @@ class GraphView: UIView {
         }
     }
 
-    private let axesDrawer = AxesDrawer(color: UIColor.blueColor())
+    fileprivate let axesDrawer = AxesDrawer(color: UIColor.blue)
     
-    private var lightCurve:Bool = false // рисуем график
+    fileprivate var lightCurve:Bool = false // рисуем график
 
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         axesDrawer.contentScaleFactor = contentScaleFactor
         axesDrawer.drawAxesInRect(bounds, origin: origin, pointsPerUnit: scale)
          if !lightCurve {
             drawCurveInRect(bounds, origin: origin, scale: scale)}
     }
     
-    func drawCurveInRect(bounds: CGRect, origin: CGPoint, scale: CGFloat){
+    func drawCurveInRect(_ bounds: CGRect, origin: CGPoint, scale: CGFloat){
         color.set()
         var xGraph, yGraph :CGFloat
         
@@ -67,29 +67,29 @@ class GraphView: UIView {
             
             xGraph = CGFloat(i) / contentScaleFactor
             
-            guard let y = (yForX)?(x: x) where y.isFinite
+            guard let y = (yForX)?(x), y.isFinite
                                           else { oldPoint.normal = false;  continue}
             yGraph = origin.y - CGFloat(y) * scale
             
             if !oldPoint.normal{
-                path.moveToPoint(CGPoint(x: xGraph, y: yGraph))
+                path.move(to: CGPoint(x: xGraph, y: yGraph))
             } else {
                 guard !disContinuity else {
                                 oldPoint =  OldPoint ( yGraph: yGraph, normal: false)
                                 continue }
-                path.addLineToPoint(CGPoint(x: xGraph, y: yGraph))
+                path.addLine(to: CGPoint(x: xGraph, y: yGraph))
             }
             oldPoint =  OldPoint (yGraph: yGraph, normal: true)
         }
         path.stroke()
     }
     
-    private struct OldPoint {
+    fileprivate struct OldPoint {
         var yGraph: CGFloat
         var normal: Bool
     }
     
-    private var snapshot:UIView?
+    fileprivate var snapshot:UIView?
 /*
     func scale(gesture: UIPinchGestureRecognizer) {
         if gesture.state == .Changed {
@@ -98,20 +98,20 @@ class GraphView: UIView {
         }
     }*/
     
-    func scale(gesture: UIPinchGestureRecognizer) {
+    func scale(_ gesture: UIPinchGestureRecognizer) {
         switch gesture.state {
-        case .Began:
-            snapshot = self.snapshotViewAfterScreenUpdates(false)
+        case .began:
+            snapshot = self.snapshotView(afterScreenUpdates: false)
             snapshot!.alpha = 0.8
             self.addSubview(snapshot!)
-        case .Changed:
-            let touch = gesture.locationInView(self)
+        case .changed:
+            let touch = gesture.location(in: self)
             snapshot!.frame.size.height *= gesture.scale
             snapshot!.frame.size.width *= gesture.scale
             snapshot!.frame.origin.x = snapshot!.frame.origin.x * gesture.scale + (1 - gesture.scale) * touch.x
             snapshot!.frame.origin.y = snapshot!.frame.origin.y * gesture.scale + (1 - gesture.scale) * touch.y
             gesture.scale = 1.0
-        case .Ended:
+        case .ended:
             let changedScale = snapshot!.frame.height / self.frame.height
             scale *= changedScale
             origin.x = origin.x * changedScale + snapshot!.frame.origin.x
@@ -141,24 +141,24 @@ class GraphView: UIView {
     }
   */
     
-    func originMove(gesture: UIPanGestureRecognizer) {
+    func originMove(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
-        case .Began:
+        case .began:
             lightCurve = true
-            snapshot = self.snapshotViewAfterScreenUpdates(false)
+            snapshot = self.snapshotView(afterScreenUpdates: false)
             snapshot!.alpha = 0.4
             
             self.addSubview(snapshot!)
-        case .Changed:
-            let translation = gesture.translationInView(self)
-            if translation != CGPointZero {
+        case .changed:
+            let translation = gesture.translation(in: self)
+            if translation != CGPoint.zero {
                    snapshot!.center.x += translation.x   // можно двигать
                    snapshot!.center.y += translation.y   // только снимок
               //  origin.x += translation.x
               //  origin.y += translation.y
-                gesture.setTranslation(CGPointZero, inView: self)
+                gesture.setTranslation(CGPoint.zero, in: self)
             }
-        case .Ended:
+        case .ended:
             origin.x += snapshot!.frame.origin.x
             origin.y += snapshot!.frame.origin.y
             snapshot!.removeFromSuperview()
@@ -169,9 +169,9 @@ class GraphView: UIView {
         }
     }
 
-    func origin(gesture: UITapGestureRecognizer) {
-        if gesture.state == .Ended {
-            origin = gesture.locationInView(self)
+    func origin(_ gesture: UITapGestureRecognizer) {
+        if gesture.state == .ended {
+            origin = gesture.location(in: self)
         }
     }
 

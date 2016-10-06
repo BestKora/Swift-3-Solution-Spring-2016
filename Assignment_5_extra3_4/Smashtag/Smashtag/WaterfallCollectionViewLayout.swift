@@ -355,35 +355,36 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     */
     func shortestColumnIndex () -> NSInteger {
         var index = 0
-        var shorestHeight = MAXFLOAT
-        
-        self.columnHeights.enumerateObjects({(object : AnyObject!, idx : NSInteger,pointer :UnsafeMutablePointer<ObjCBool>) in
-            let height = object.floatValue
-            if (height<shorestHeight){
-                shorestHeight = height!
-                index = idx
+        var shorestHeight = CGFloat(MAXFLOAT)
+        let columnHeightsFloat = columnHeights as NSArray as! [CGFloat]
+        for height  in columnHeightsFloat{
+            if height < shorestHeight{
+                shorestHeight = height
+                index = columnHeightsFloat.index(of: height)!
             }
-        } as! (Any, Int, UnsafeMutablePointer<ObjCBool>) -> Void)
+            
+        }
         return index
     }
     
     /**
-    *  Find the longest column.
-    *
-    *  @return index for the longest column
-    */
+     *  Find the longest column.
+     *
+     *  @return index for the longest column
+     */
     
     func longestColumnIndex () -> NSInteger {
         var index = 0
         var longestHeight:CGFloat = 0.0
-        
-        self.columnHeights.enumerateObjects({(object : AnyObject!, idx : NSInteger,pointer :UnsafeMutablePointer<ObjCBool>) in
-            let height = CGFloat(object.floatValue)
-            if (height > longestHeight){
+        let columnHeightsFloat = columnHeights as NSArray as! [CGFloat]
+        for height  in columnHeightsFloat{
+            if height < longestHeight{
                 longestHeight = height
-                index = idx
+                index = columnHeightsFloat.index(of: height)!
             }
-        } as! (Any, Int, UnsafeMutablePointer<ObjCBool>) -> Void)
+            
+        }
+        
         return index
     }
     

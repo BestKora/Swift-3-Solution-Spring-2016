@@ -355,8 +355,8 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     */
     func shortestColumnIndex () -> NSInteger {
         var index = 0
-        var shorestHeight = MAXFLOAT
-        let columnHeightsFloat = columnHeights as NSArray as! [Float]
+        var shorestHeight = CGFloat(MAXFLOAT)
+        let columnHeightsFloat = columnHeights as NSArray as! [CGFloat]
         for height  in columnHeightsFloat{
             if height < shorestHeight{
                 shorestHeight = height

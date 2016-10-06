@@ -10,21 +10,21 @@ import UIKit
 
 class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
     @IBOutlet weak var history: UILabel!
-    @IBOutlet private weak var display: UILabel!
+    @IBOutlet fileprivate weak var display: UILabel!
     
     @IBOutlet weak var graph: UIButton!{
         didSet{
-            graph.enabled = false
+            graph.isEnabled = false
         }
     }
-    private struct Storyboard{
+    fileprivate struct Storyboard{
         static let ShowGraph = "Show Graph"
     }
     
-    private var userIsInTheMiddleOfTyping = false
+    fileprivate var userIsInTheMiddleOfTyping = false
     let decimalSeparator = formatter.decimalSeparator ?? "."
     
-    @IBAction private func touchDigit(sender: UIButton) {
+    @IBAction fileprivate func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
@@ -34,7 +34,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
             { display.text = digit ; return }
 //--------------------------------------------------
 
-            if (digit != decimalSeparator) || (textCurrentlyInDisplay.rangeOfString(decimalSeparator) == nil) {
+            if (digit != decimalSeparator) || (textCurrentlyInDisplay.range(of: decimalSeparator) == nil) {
                 display.text = textCurrentlyInDisplay + digit
             }
         } else {
@@ -43,9 +43,9 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         userIsInTheMiddleOfTyping = true
     }
     
-    private var resultValue: (Double, String?) = (0.0, nil) {
+    fileprivate var resultValue: (Double, String?) = (0.0, nil) {
         didSet {
-            graph.enabled = !brain.isPartialResult
+            graph.isEnabled = !brain.isPartialResult
             switch resultValue {
             case (_, nil) : displayValue = resultValue.0
             case (_, let error):
@@ -56,17 +56,17 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
 
-    private var displayValue: Double? {
+    fileprivate var displayValue: Double? {
         get {
             if let text = display.text,
-                value = formatter.numberFromString(text)?.doubleValue {
+                let value = formatter.number(from: text)?.doubleValue {
                 return value
             }
             return nil
         }
         set {
             if let value = newValue {
-                display.text = formatter.stringFromNumber(value)
+                display.text = formatter.string(from: value as NSNumber)
                 history.text = brain.description + (brain.isPartialResult ? " …" : " =")
             } else {
                 display.text = "0"
@@ -76,21 +76,21 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
 
-    private var brain = CalculatorBrain()
+    fileprivate var brain = CalculatorBrain()
     
-    private let defaults = NSUserDefaults.standardUserDefaults()
-    private struct Keys {
+    fileprivate let defaults = UserDefaults.standard
+    fileprivate struct Keys {
         static let Program = "CalculatorViewController.Program"
     }
     
     typealias PropertyList = AnyObject
     
-    private var program: PropertyList? {
-        get { return defaults.objectForKey(Keys.Program) }
-        set { defaults.setObject(newValue, forKey: Keys.Program) }
+    fileprivate var program: PropertyList? {
+        get { return defaults.object(forKey: Keys.Program) as CalculatorViewController.PropertyList? }
+        set { defaults.set(newValue, forKey: Keys.Program) }
     }
     
-    @IBAction private func performOperation(sender: UIButton) {
+    @IBAction fileprivate func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
             if let value = displayValue{
                 brain.setOperand(value)
@@ -103,15 +103,15 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         resultValue  = brain.result
     }
     
-    @IBAction func clearAll(sender: UIButton) {
+    @IBAction func clearAll(_ sender: UIButton) {
         brain.clearVariables()
         brain.clear()
         displayValue = nil
     }
     
-    @IBAction func backspace(sender: UIButton) {
+    @IBAction func backspace(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping  {
-            display.text!.removeAtIndex(display.text!.endIndex.predecessor())
+            display.text!.remove(at: display.text!.characters.index(before: display.text!.endIndex))
             if display.text!.isEmpty {
                 userIsInTheMiddleOfTyping  = false
                 resultValue = brain.result
@@ -122,9 +122,9 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
     
-    @IBAction func plusMinus(sender: UIButton) {
+    @IBAction func plusMinus(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping  {
-            if (display.text!.rangeOfString("-") != nil) {
+            if (display.text!.range(of: "-") != nil) {
                 display.text = String((display.text!).characters.dropFirst())
             } else {
                 display.text = "-" + display.text!
@@ -134,7 +134,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
     
-    @IBAction func setM(sender: UIButton) {
+    @IBAction func setM(_ sender: UIButton) {
         userIsInTheMiddleOfTyping = false
         let symbol = String((sender.currentTitle!).characters.dropFirst())
         if let value = displayValue {
@@ -144,37 +144,36 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
     }
     
     
-    @IBAction func pushM(sender: UIButton) {
+    @IBAction func pushM(_ sender: UIButton) {
         brain.setOperand(sender.currentTitle!)
         resultValue = brain.result
     }
     
     // MARK: - Navigation
     
-    override func shouldPerformSegueWithIdentifier(identifier: String,
-                                                   sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String,
+                                                   sender: Any?) -> Bool {
         return !brain.isPartialResult
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let gVC = segue.destinationViewController.contentViewController
-                                                           as? GraphViewController
-            where segue.identifier == Storyboard.ShowGraph {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let gVC = segue.destination.contentViewController
+                                                           as? GraphViewController, segue.identifier == Storyboard.ShowGraph {
             prepareGraphVC(gVC)
         }
     }
     
-    @IBAction func showGraph(sender: UIButton) {
+    @IBAction func showGraph(_ sender: UIButton) {
         program = brain.program
         if let gVC = splitViewController?.viewControllers.last?.contentViewController
                                                               as? GraphViewController{
             prepareGraphVC(gVC)
         } else {
-            performSegueWithIdentifier(Storyboard.ShowGraph, sender: nil)
+            performSegue(withIdentifier: Storyboard.ShowGraph, sender: nil)
         }
     }
     
-    private func prepareGraphVC(graphVC : GraphViewController){
+    fileprivate func prepareGraphVC(_ graphVC : GraphViewController){
         graphVC.navigationItem.title = brain.description
         graphVC.yForX = { [ weak weakSelf = self] x in
                      weakSelf?.brain.variableValues["M"] = x
@@ -190,7 +189,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         
         if let savedProgram = program as? [AnyObject]{
             
-            brain.program = savedProgram
+            brain.program = savedProgram as CalculatorBrain.PropertyList
             resultValue = brain.result
             if let gVC = splitViewController?.viewControllers.last?.contentViewController
                                                                 as? GraphViewController {
@@ -199,7 +198,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         if !brain.isPartialResult{
@@ -210,13 +209,13 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
 
     // MARK: - UISplitViewControllerDelegate
     
-    func splitViewController(splitViewController: UISplitViewController,
-            collapseSecondaryViewController secondaryViewController: UIViewController,
-                ontoPrimaryViewController primaryViewController: UIViewController) -> Bool
+    func splitViewController(_ splitViewController: UISplitViewController,
+            collapseSecondary secondaryViewController: UIViewController,
+                onto primaryViewController: UIViewController) -> Bool
     {
         if primaryViewController.contentViewController == self {
             if let gvc = secondaryViewController.contentViewController
-                                               as? GraphViewController where gvc.yForX == nil {
+                                               as? GraphViewController, gvc.yForX == nil {
                 if program != nil {
                     return false
                 }

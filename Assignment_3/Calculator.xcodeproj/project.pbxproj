@@ -16,7 +16,6 @@
 		E40D9B951CFBE78B0087553A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E40D9B931CFBE78B0087553A /* LaunchScreen.storyboard */; };
 		E40D9B9E1CFBE8120087553A /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40D9B9D1CFBE8120087553A /* CalculatorViewController.swift */; };
 		E40D9BA01CFBE82D0087553A /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40D9B9F1CFBE82D0087553A /* CalculatorBrain.swift */; };
-		E4AEAEF71D3FAF680077AAA6 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AEAEF61D3FAF680077AAA6 /* test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +30,6 @@
 		E40D9B961CFBE78B0087553A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E40D9B9D1CFBE8120087553A /* CalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		E40D9B9F1CFBE82D0087553A /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
-		E4AEAEF61D3FAF680077AAA6 /* test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +65,6 @@
 				E40D9B9D1CFBE8120087553A /* CalculatorViewController.swift */,
 				E40D9B8E1CFBE78B0087553A /* Main.storyboard */,
 				E40945101D20654C00CFDC52 /* GraphView.swift */,
-				E4AEAEF61D3FAF680077AAA6 /* test.swift */,
 				E402CC0D1D1C5C5B00DB2D0D /* GraphViewController.swift */,
 				E40D9B9F1CFBE82D0087553A /* CalculatorBrain.swift */,
 				E40945121D21499200CFDC52 /* AxesDrawer.swift */,
@@ -119,7 +116,8 @@
 				TargetAttributes = {
 					E40D9B861CFBE78B0087553A = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -165,7 +163,6 @@
 				E40D9B9E1CFBE8120087553A /* CalculatorViewController.swift in Sources */,
 				E40D9B8B1CFBE78B0087553A /* AppDelegate.swift in Sources */,
 				E40945131D21499200CFDC52 /* AxesDrawer.swift in Sources */,
-				E4AEAEF71D3FAF680077AAA6 /* test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +232,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -276,6 +274,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -285,11 +284,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bestkora.cs193p.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -297,11 +298,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bestkora.cs193p.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

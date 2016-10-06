@@ -7,7 +7,7 @@ import UIKit
 
 class GraphViewController: UIViewController {
     
-     var yForX: (( x: Double) -> Double?)?  { didSet { updateUI() } }
+     var yForX: (( _ x: Double) -> Double?)?  { didSet { updateUI() } }
     
     @IBOutlet weak var graphView: GraphView!{
         didSet {
@@ -33,20 +33,20 @@ class GraphViewController: UIViewController {
         graphView?.yForX = yForX
     }
     
-    let defaults = NSUserDefaults.standardUserDefaults()
-    private struct Keys {
+    let defaults = UserDefaults.standard
+    fileprivate struct Keys {
         static let Scale = "GraphViewController.Scale"
         static let Origin = "GraphViewController.Origin"
     }
     
     var scale: CGFloat {
-        get { return defaults.objectForKey(Keys.Scale) as? CGFloat ?? 50.0 }
-        set { defaults.setObject(newValue, forKey: Keys.Scale) }
+        get { return defaults.object(forKey: Keys.Scale) as? CGFloat ?? 50.0 }
+        set { defaults.set(newValue, forKey: Keys.Scale) }
     }
     
     var originRelativeToCenter: CGPoint {
         get {
-            let originArray = defaults.objectForKey(Keys.Origin) as? [CGFloat]
+            let originArray = defaults.object(forKey: Keys.Origin) as? [CGFloat]
             
             let factor = CGPoint(x: originArray?.first ?? CGFloat (0.0),
                            y: originArray?.last ?? CGFloat (0.0))
@@ -60,7 +60,7 @@ class GraphViewController: UIViewController {
                 CGPoint(x: newValue.x / graphView.bounds.size.width,
                         y: newValue.y / graphView.bounds.size.height)
             
-            defaults.setObject([factor.x, factor.y], forKey: Keys.Origin)
+            defaults.set([factor.x, factor.y], forKey: Keys.Origin)
         }
     }
 
@@ -80,7 +80,7 @@ class GraphViewController: UIViewController {
         }
     }
    
-       override func viewWillDisappear(animated: Bool) {
+       override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         scale = graphView.scale
         originRelativeToCenter = graphView.originRelativeToCenter
