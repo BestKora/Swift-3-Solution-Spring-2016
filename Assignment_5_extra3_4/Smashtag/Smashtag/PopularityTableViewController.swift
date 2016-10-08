@@ -35,6 +35,7 @@ class PopularityTableViewController: CoreDataTableViewController {
     
     var mention: String? { didSet { updateUI() } }
     var moc: NSManagedObjectContext? { didSet { updateUI() } }
+    var resultsController: NSFetchedResultsController<Mension>!
     
     fileprivate func updateUI() {
         if let context = moc , mention?.characters.count > 0 {
@@ -53,12 +54,13 @@ class PopularityTableViewController: CoreDataTableViewController {
                     ascending: true,
                     selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
                 )]
-            fetchedResultsController = NSFetchedResultsController(
+            resultsController = NSFetchedResultsController(
                 fetchRequest: request,
                 managedObjectContext: context,
                 sectionNameKeyPath: "type",
                 cacheName: nil
             )
+            fetchedResultsController =  resultsController as? NSFetchedResultsController<NSFetchRequestResult>? ?? nil
         } else {
             fetchedResultsController = nil
         }
@@ -75,7 +77,7 @@ class PopularityTableViewController: CoreDataTableViewController {
                                                             for: indexPath)
         var keyword: String?
         var count: String?
-        if let mensionM = fetchedResultsController?.object(at: indexPath)  {
+        if let mensionM = fetchedResultsController?.object(at: indexPath) as? Mension {
             mensionM.managedObjectContext?.performAndWait {  // asynchronous
                 keyword =  mensionM.keyword
                 count =  mensionM.count!.stringValue

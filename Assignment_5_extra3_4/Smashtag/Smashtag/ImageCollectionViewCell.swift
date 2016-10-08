@@ -36,7 +36,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
             let imageData = cache?.object(forKey: url as AnyObject) as? Data
             guard imageData == nil else {image = UIImage(data: imageData!); return}
             
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async  {
+            DispatchQueue.global(qos: .userInitiated).async  {
                 let contentsOfURL = try? Data(contentsOf: url)
                 DispatchQueue.main.async {
                     if url == self.imageURL {
