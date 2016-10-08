@@ -35,7 +35,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         autoZoomed = true
         if let url = imageURL {
             spinner?.startAnimating()
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async { () -> Void in
+            DispatchQueue.global(qos: .userInitiated).async { () -> Void in
                 let contentsOfURL = try? Data(contentsOf: url) // это блокирует поток, на котором это выполняется
                 DispatchQueue.main.async {
                     // делаем что-то с этим image только в том случае

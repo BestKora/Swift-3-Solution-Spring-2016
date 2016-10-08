@@ -22,7 +22,7 @@ class ImageTableViewCell: UITableViewCell {
         if let url = imageUrl {
             spinner?.startAnimating()
             
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 
                 let contentsOfURL = try? Data(contentsOf: url)
                 

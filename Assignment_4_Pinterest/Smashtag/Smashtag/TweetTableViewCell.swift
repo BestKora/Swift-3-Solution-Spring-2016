@@ -72,7 +72,7 @@ class TweetTableViewCell: UITableViewCell
     
     fileprivate func setProfileImageView(_ tweet: Tweet) {
         if let profileImageURL = tweet.user.profileImageURL {
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 
                 let contentsOfURL = try? Data(contentsOf: profileImageURL)
                 
