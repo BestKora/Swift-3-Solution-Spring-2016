@@ -49,7 +49,7 @@ extension UIManagedDocument
         let urls = FileManager.default.urls(for: .documentDirectory,
                                                                    in: .userDomainMask)
         let url = urls[urls.count-1].appendingPathComponent(doc)
-       // print (url)
+        print (url)
         let document = MyDocument(fileURL: url)
         document.persistentStoreOptions =
             [ NSMigratePersistentStoresAutomaticallyOption: true,
