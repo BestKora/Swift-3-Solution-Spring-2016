@@ -23,11 +23,7 @@ class RecentsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    fileprivate struct Storyboard {
-        fileprivate static let RecentCell = "Recent Cell"
-        fileprivate static let TweetsSegue = "Show Tweets from Recent"
-        fileprivate static let PopularSegueIdentifier = "Recent to Popular"
-    }
+   
     
     // MARK: - UITableViewDataSource
     
@@ -41,7 +37,7 @@ class RecentsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView,
              cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.RecentCell,
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.RecentCell,
                                           for: indexPath) as UITableViewCell
         cell.textLabel?.text = recentSearches[(indexPath as NSIndexPath).row]
         return cell
@@ -67,13 +63,19 @@ class RecentsTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if let identifier = segue.identifier , identifier == Storyboard.TweetsSegue,
+        if let identifier = segue.identifier , identifier == Constants.TweetsSegue,
             let cell = sender as? UITableViewCell,
             let ttvc = segue.destination as? TweetTableViewController
         {
             ttvc.searchText = cell.textLabel?.text
         }
         
+    }
+    
+    private struct Constants {
+        static let RecentCell = "Recent Cell"
+        static let TweetsSegue = "Show Tweets from Recent"
+        static let PopularSegueIdentifier = "Recent to Popular"
     }
 
    }

@@ -11,8 +11,8 @@ import Foundation
 
 class CalculatorBrain{
     
-    fileprivate var accumulator = 0.0
-    fileprivate var internalProgram = [AnyObject]()
+    private var accumulator = 0.0
+    private var internalProgram = [AnyObject]()
     
     var result: Double{
         get{
@@ -20,8 +20,8 @@ class CalculatorBrain{
         }
     }
     
-    fileprivate var currentPrecedence = Int.max
-    fileprivate var descriptionAccumulator = "0" {
+    private var currentPrecedence = Int.max
+    private var descriptionAccumulator = "0" {
         didSet {
             if pending == nil {
                 currentPrecedence = Int.max
@@ -52,7 +52,7 @@ class CalculatorBrain{
         internalProgram.append(operand as AnyObject)
     }
     
-    fileprivate var operations : [String: Operation] = [
+    private var operations : [String: Operation] = [
         "rand": Operation.nullaryOperation(drand48, "rand()"),
         "π": Operation.constant(M_PI),
         "e": Operation.constant(M_E),
@@ -76,7 +76,7 @@ class CalculatorBrain{
         
     ]
     
-    fileprivate enum Operation{
+    private enum Operation{
         case nullaryOperation(() -> Double,String)
         case constant(Double)
         case unaryOperation((Double) -> Double,(String) -> String)
@@ -113,7 +113,7 @@ class CalculatorBrain{
         }
     }
     
-    fileprivate func executeBinaryOperation(){
+    private func executeBinaryOperation(){
         
         if pending != nil{
             accumulator = pending!.binaryOperation(pending!.firstOperand, accumulator)
@@ -149,9 +149,9 @@ class CalculatorBrain{
         currentPrecedence = Int.max
     }
     
-    fileprivate var pending: PendingBinaryOperationInfo?
+    private var pending: PendingBinaryOperationInfo?
     
-    fileprivate struct PendingBinaryOperationInfo {
+    private struct PendingBinaryOperationInfo {
         var binaryOperation: (Double, Double) ->Double
         var firstOperand: Double
         var descriptionFunction: (String, String) -> String

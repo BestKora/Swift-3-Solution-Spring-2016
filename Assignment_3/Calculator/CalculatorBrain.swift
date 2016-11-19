@@ -11,10 +11,10 @@ import Foundation
 
 class CalculatorBrain{
     
-    fileprivate var accumulator = 0.0
-    fileprivate var internalProgram = [AnyObject]()
+    private var accumulator = 0.0
+    private var internalProgram = [AnyObject]()
     
-    fileprivate var error: String?
+    private var error: String?
     
     var result: (Double, String?){
         get{
@@ -29,8 +29,8 @@ class CalculatorBrain{
         }
     }
 
-    fileprivate var currentPrecedence = Int.max
-    fileprivate var descriptionAccumulator = "0" {
+    private var currentPrecedence = Int.max
+    private var descriptionAccumulator = "0" {
         didSet {
             if pending == nil {
                 currentPrecedence = Int.max
@@ -68,7 +68,7 @@ class CalculatorBrain{
         internalProgram.append(variable as AnyObject)
     }
 
-     fileprivate var operations : [String: Operation] = [
+     private var operations : [String: Operation] = [
         "rand": Operation.nullaryOperation(drand48, "rand()"),
         "π": Operation.constant(M_PI),
         "e": Operation.constant(M_E),
@@ -105,7 +105,7 @@ class CalculatorBrain{
         "=": Operation.equals
     ]
 
-    fileprivate enum Operation{
+    private enum Operation{
         case nullaryOperation(() -> Double,String)
         case constant(Double)
         case unaryOperation((Double) -> Double,(String) -> String, ((Double) -> String?)?)
@@ -144,7 +144,7 @@ class CalculatorBrain{
         }
     }
     
-    fileprivate func executeBinaryOperation(){
+    private func executeBinaryOperation(){
         if pending != nil{
             error = pending!.validator?(pending!.firstOperand, accumulator)
             accumulator = pending!.binaryOperation(pending!.firstOperand, accumulator)
@@ -199,7 +199,7 @@ class CalculatorBrain{
         variableValues = [:]
     }
 
-    fileprivate var pending: PendingBinaryOperationInfo?
+    private var pending: PendingBinaryOperationInfo?
     
     fileprivate struct PendingBinaryOperationInfo {
         var binaryOperation: (Double, Double) ->Double

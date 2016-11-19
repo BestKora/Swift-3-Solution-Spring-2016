@@ -190,12 +190,12 @@ open class Request: NSObject
         }
     }
     
-    fileprivate var min_id: String? = nil
-    fileprivate var max_id: String? = nil
+    private var min_id: String? = nil
+    private var max_id: String? = nil
     
     // modifies parameters in an existing request to create a new one
     
-    fileprivate func modifiedRequest(parametersToChange: Dictionary<String,String>, clearCount: Bool = false) -> Request {
+    private func modifiedRequest(parametersToChange: Dictionary<String,String>, clearCount: Bool = false) -> Request {
         var newParameters = parameters
         for (key, value) in parametersToChange {
             newParameters[key] = value
@@ -207,7 +207,7 @@ open class Request: NSObject
     // captures the min_id and max_id information
     // to support requestForNewer and requestForOlder
     
-    fileprivate func captureFollowonRequestInfo(_ propertyListResponse: PropertyList?) {
+    private func captureFollowonRequestInfo(_ propertyListResponse: PropertyList?) {
         if let responseDictionary = propertyListResponse as? NSDictionary {
             self.max_id = responseDictionary.value(forKeyPath: TwitterKey.SearchMetadata.MaxID) as? String
             if let next_results = responseDictionary.value(forKeyPath: TwitterKey.SearchMetadata.NextResults) as? String {
@@ -225,13 +225,13 @@ open class Request: NSObject
     
     // debug println with identifying prefix
     
-    fileprivate func log(_ whatToLog: AnyObject) {
+    private func log(_ whatToLog: AnyObject) {
         debugPrint("TwitterRequest: \(whatToLog)")
     }
     
     // synchronizes access to self across multiple threads
     
-    fileprivate func synchronize(_ closure: () -> Void) {
+    private func synchronize(_ closure: () -> Void) {
         objc_sync_enter(self)
         closure()
         objc_sync_exit(self)
@@ -239,7 +239,7 @@ open class Request: NSObject
     
     // constants
     
-    fileprivate struct Constants {
+    private struct Constants {
         static let JSONExtension = ".json"
         static let TwitterURLPrefix = "https://api.twitter.com/1.1/"
     }

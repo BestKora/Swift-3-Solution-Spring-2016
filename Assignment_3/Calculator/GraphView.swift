@@ -18,10 +18,10 @@ class GraphView: UIView {
     
     var originRelativeToCenter = CGPoint.zero  { didSet { setNeedsDisplay() } }
  
-    fileprivate var graphCenter: CGPoint {
+    private var graphCenter: CGPoint {
         return convert(center, from: superview)
     }
-   fileprivate  var origin: CGPoint  {
+   private  var origin: CGPoint  {
         get {
             var origin = originRelativeToCenter
             origin.x += graphCenter.x
@@ -36,9 +36,9 @@ class GraphView: UIView {
         }
     }
 
-    fileprivate let axesDrawer = AxesDrawer(color: UIColor.blue)
+    private let axesDrawer = AxesDrawer(color: UIColor.blue)
     
-    fileprivate var lightCurve:Bool = false // рисуем график
+    private var lightCurve:Bool = false // рисуем график
 
     
     override func draw(_ rect: CGRect) {
@@ -84,12 +84,12 @@ class GraphView: UIView {
         path.stroke()
     }
     
-    fileprivate struct OldPoint {
+    private struct OldPoint {
         var yGraph: CGFloat
         var normal: Bool
     }
     
-    fileprivate var snapshot:UIView?
+    private var snapshot:UIView?
 /*
     func scale(gesture: UIPinchGestureRecognizer) {
         if gesture.state == .Changed {

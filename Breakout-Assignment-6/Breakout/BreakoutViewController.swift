@@ -36,7 +36,7 @@ class BreakoutViewController: UIViewController {
         didSet{ scoreLabel?.text = "\(score)" }
     }
     
-    private var ballVelocity = [CGPoint]()
+    private var ballsVelocities = [CGPoint]()
     private var gameViewSizeChanged = true
     
     private let motionManager = CMMotionManager()
@@ -60,7 +60,7 @@ class BreakoutViewController: UIViewController {
         loadSettings()
         
         //  Restart мячиков при возвращени на закладку Breakout игры
-        breakoutView.ballVelocity = ballVelocity
+        breakoutView.ballsVelocities = ballsVelocities
         
     }
     
@@ -69,7 +69,7 @@ class BreakoutViewController: UIViewController {
           breakoutView.animating = false
         
         // Останавливаем мячики
-         ballVelocity = breakoutView.ballVelocity
+         ballsVelocities = breakoutView.ballsVelocities
     }
     
     override func viewWillTransition(to size: CGSize,
@@ -80,18 +80,31 @@ class BreakoutViewController: UIViewController {
 
     // MARK: - GESTURES
     
+    // один мяч в игре
     func launchBall(_ gesture: UITapGestureRecognizer){
         if gesture.state == .ended {
             if breakoutView.balls.count > 0 {
                      breakoutView.pushBalls()
             } else if ballsUsed < maxBalls {
                 ballsUsed += 1
-                breakoutView.addBall()
+                breakoutView.addBallToGame()
             }
         }
     }
     
+       // много мячиков в игре
+ /*   func launchBall(_ gesture: UITapGestureRecognizer){
+        if gesture.state == .ended {
+            if ballsUsed < maxBalls {
+                ballsUsed += 1
+                breakoutView.addBallToGame()
+            }
+        }
+    }*/
+
+    
     // MARK: - LOAD SEIITINGS
+    
     private func loadSettings() {
         
         maxBalls = settings.maxBalls
@@ -116,10 +129,10 @@ class BreakoutViewController: UIViewController {
     
     // MARK: - Hit BRICK
     func ballHitBrick(_ behavior: UICollisionBehavior, ball: BallView, brickIndex: Int) {
-        breakoutView.removeBrick(brickIndex)
+        breakoutView.removeBrickFromGame(brickIndex: brickIndex)
         score += 1
-        if breakoutView.bricks.count == 0 {
-            breakoutView.removeAllBalls()
+        if breakoutView.bricks.count == 0 {  // последний "кирпич" покинул игровое поле
+            breakoutView.removeAllBallsFromGame()
             showGameEndedAlert(true, message: "ВЫИГРЫШ!")
         }
     }
@@ -127,13 +140,14 @@ class BreakoutViewController: UIViewController {
     // MARK: - Ball LEFT Plaing FIELD
     func ballLeftPlayingField(_ ball: BallView)
     {
-        if(ballsUsed == maxBalls) { // the last ball just left the playing field
+        if(ballsUsed == maxBalls && breakoutView.balls.count == 1) { // последний "мячик" покинул игровое поле
             showGameEndedAlert(false, message: "Нет мячиков!")
         }
-        breakoutView.removeBall(ball)
+        breakoutView.removeBallFromGame(ball)
     }
     
     // MARK: - ALERT
+    
     private func showGameEndedAlert(_ playerWon: Bool, message: String) {
         let title = playerWon ? Const.congratulationsTitle : Const.gameOverTitle
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -157,12 +171,13 @@ class BreakoutViewController: UIViewController {
     override var canBecomeFirstResponder : Bool {
         return true;
     }
+    
     // on device shake
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         breakoutView.pushBalls()
     }
-    
+  
     private struct Const {
         static let gameOverTitle = "Game over!"
         static let congratulationsTitle = "Congratulations!"

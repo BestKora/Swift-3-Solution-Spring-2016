@@ -51,7 +51,7 @@ open class Tweet : NSObject
         self.userMentions = Tweet.mentionsFromTwitterData(data?.arrayForKeyPath(TwitterKey.Entities.UserMentions), inText: text, withPrefix: "@")
     }
     
-    fileprivate static func mediaItemsFromTwitterData(_ twitterData: NSArray?) -> [MediaItem] {
+    private static func mediaItemsFromTwitterData(_ twitterData: NSArray?) -> [MediaItem] {
         var mediaItems = [MediaItem]()
         for mediaItemData in twitterData ?? [] {
             if let mediaItem = MediaItem(data: mediaItemData as? NSDictionary) {
@@ -61,7 +61,7 @@ open class Tweet : NSObject
         return mediaItems
     }
     
-    fileprivate static func mentionsFromTwitterData(_ twitterData: NSArray?, inText text: String, withPrefix prefix: String) -> [Mention] {
+    private static func mentionsFromTwitterData(_ twitterData: NSArray?, inText text: String, withPrefix prefix: String) -> [Mention] {
         var mentions = [Mention]()
         for mentionData in twitterData ?? [] {
             if let mention = Mention(fromTwitterData: mentionData as? NSDictionary, inText: text as NSString, withPrefix: prefix) {

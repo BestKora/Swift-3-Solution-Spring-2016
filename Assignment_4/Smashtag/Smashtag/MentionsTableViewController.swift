@@ -49,16 +49,16 @@ class MentionsTableViewController: UITableViewController {
     
     // MARK: - Внутренняя структура данных
     
-    fileprivate var mentionSections: [MentionSection] = []
+    private var mentionSections: [MentionSection] = []
     
-    fileprivate struct MentionSection: CustomStringConvertible
+    private struct MentionSection: CustomStringConvertible
     {
         var type: String
         var mentions: [MentionItem]
         var description: String { return "\(type): \(mentions)" }
     }
     
-    fileprivate enum MentionItem: CustomStringConvertible
+    private enum MentionItem: CustomStringConvertible
     {
         case keyword(String)
         case image(URL, Double)
@@ -73,7 +73,7 @@ class MentionsTableViewController: UITableViewController {
     
     // MARK: - UITableViewControllerDataSource
     
-    fileprivate struct Storyboard {
+    private struct Storyboard {
         static let KeywordCell = "Keyword Cell"
         static let ImageCell = "Image Cell"
         

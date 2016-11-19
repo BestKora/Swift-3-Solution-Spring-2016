@@ -9,12 +9,12 @@
 import UIKit
 
 class WebViewController: UIViewController, UIWebViewDelegate {
-    fileprivate struct Constants {
+    private struct Constants {
         static let BackButtonImage = UIImage(named: "back")
     }
     
     // MARK: - Outlets
-    @IBOutlet fileprivate weak var webView: UIWebView! {
+    @IBOutlet private weak var webView: UIWebView! {
         didSet {
             if URL != nil {
                 webView.delegate = self
@@ -42,7 +42,7 @@ class WebViewController: UIViewController, UIWebViewDelegate {
     }
     
     // MARK: - Users interaction
-    @objc fileprivate func navigateToPreviousWebPageOrVC(_ sender: UIBarButtonItem) {
+    @objc private func navigateToPreviousWebPageOrVC(_ sender: UIBarButtonItem) {
         if webView.canGoBack {
             webView.goBack()
         } else {

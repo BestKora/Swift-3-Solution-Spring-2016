@@ -30,11 +30,11 @@ class ImageCollectionViewController: UICollectionViewController,
         }
     }
     
-    fileprivate var images = [TweetMedia]()
-    fileprivate var cache = NSCache<AnyObject, AnyObject>()
+    private var images = [TweetMedia]()
+    private var cache = NSCache<AnyObject, AnyObject>()
     
-    fileprivate var layoutFlow = UICollectionViewFlowLayout()
-    fileprivate var layoutWaterfall = CHTCollectionViewWaterfallLayout ()
+    private var layoutFlow = UICollectionViewFlowLayout()
+    private var layoutWaterfall = CHTCollectionViewWaterfallLayout ()
     
     var predefinedWidth:CGFloat {return floor(((collectionView?.bounds.width)! -
         Constants.MinimumColumnSpacing * (Constants.ColumnCountFlowLayout - 1.0 ) -
@@ -42,7 +42,7 @@ class ImageCollectionViewController: UICollectionViewController,
     
     var sizePredefined:CGSize {return CGSize(width: predefinedWidth, height: predefinedWidth) }
     
-    fileprivate struct Constants {
+    private struct Constants {
         
         static let MinImageCellWidth: CGFloat = 60
         static let SizeSetting = CGSize(width: 120.0, height: 120.0)
@@ -60,7 +60,7 @@ class ImageCollectionViewController: UICollectionViewController,
         static let FlowLayoutIcon = UIImage(named: "ico_flow_layout")
     }
     
-    fileprivate struct Storyboard {
+    private struct Storyboard {
         static let CellReuseIdentifier = "Image Cell"
         static let SegueIdentifier = "Show Tweet"
     }
@@ -113,7 +113,7 @@ class ImageCollectionViewController: UICollectionViewController,
     }
     
     //MARK: - Настройка Layout CollectionView
-    fileprivate func setupLayout(){
+    private func setupLayout(){
         
         // WaterfallLayout
         
@@ -204,7 +204,7 @@ class ImageCollectionViewController: UICollectionViewController,
         
     }
     
-    fileprivate func ajusthWaterfallColumnCount(_ collectionView: UICollectionView) {
+    private func ajusthWaterfallColumnCount(_ collectionView: UICollectionView) {
         if let waterfallLayout =
             collectionView.collectionViewLayout as? CHTCollectionViewWaterfallLayout {
             
@@ -220,7 +220,7 @@ class ImageCollectionViewController: UICollectionViewController,
     
     // MARK: - Navigation
     
-    @IBAction fileprivate func toRootViewController(_ sender: UIBarButtonItem) {
+    @IBAction private func toRootViewController(_ sender: UIBarButtonItem) {
         _ = navigationController?.popToRootViewController(animated: true)
     }
     

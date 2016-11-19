@@ -10,7 +10,7 @@ import UIKit
 
 class AxesDrawer
 {
-    fileprivate struct Constants {
+    private struct Constants {
         static let HashmarkSize: CGFloat = 6
     }
     
@@ -58,7 +58,7 @@ class AxesDrawer
 
     // the rest of this class is private
 
-    fileprivate func drawHashmarksInRect(_ bounds: CGRect, origin: CGPoint, pointsPerUnit: CGFloat)
+    private func drawHashmarksInRect(_ bounds: CGRect, origin: CGPoint, pointsPerUnit: CGFloat)
     {
         if ((origin.x >= bounds.minX) && (origin.x <= bounds.maxX)) || ((origin.y >= bounds.minY) && (origin.y <= bounds.maxY))
         {
@@ -113,7 +113,7 @@ class AxesDrawer
         }
     }
     
-    fileprivate func drawHashmarkAtLocation(_ location: CGPoint, _ text: AnchoredText)
+    private func drawHashmarkAtLocation(_ location: CGPoint, _ text: AnchoredText)
     {
         var dx: CGFloat = 0, dy: CGFloat = 0
         switch text {
@@ -131,7 +131,7 @@ class AxesDrawer
         text.drawAnchoredToPoint(location, color: color)
     }
     
-    fileprivate enum AnchoredText
+    private enum AnchoredText
     {
         case left(String)
         case right(String)
@@ -171,7 +171,7 @@ class AxesDrawer
     // if contentScaleFactor is left to its default (1), then things will be on the nearest "point" boundary instead
     // the lines will still be sharp in that case, but might be a pixel (or more theoretically) off of where they should be
 
-    fileprivate func alignedPoint(x: CGFloat, y: CGFloat, insideBounds: CGRect? = nil) -> CGPoint?
+    private func alignedPoint(x: CGFloat, y: CGFloat, insideBounds: CGRect? = nil) -> CGPoint?
     {
         let point = CGPoint(x: align(x), y: align(y))
         if let permissibleBounds = insideBounds, !permissibleBounds.contains(point) {
@@ -180,7 +180,7 @@ class AxesDrawer
         return point
     }
 
-    fileprivate func align(_ coordinate: CGFloat) -> CGFloat {
+    private func align(_ coordinate: CGFloat) -> CGFloat {
         return round(coordinate * contentScaleFactor) / contentScaleFactor
     }
 }

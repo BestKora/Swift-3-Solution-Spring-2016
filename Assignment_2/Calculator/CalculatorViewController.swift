@@ -12,10 +12,10 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var history: UILabel!
     @IBOutlet fileprivate weak var display: UILabel!
     
-    fileprivate var userIsInTheMiddleOfTyping = false
+    private var userIsInTheMiddleOfTyping = false
     let decimalSeparator = formatter.decimalSeparator ?? "."
     
-    @IBAction fileprivate func touchDigit(_ sender: UIButton) {
+    @IBAction private func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
@@ -34,7 +34,7 @@ class CalculatorViewController: UIViewController {
         userIsInTheMiddleOfTyping = true
     }
     
-    fileprivate var resultValue: (Double, String?) = (0.0, nil) {
+    private var resultValue: (Double, String?) = (0.0, nil) {
         didSet {
             
             switch resultValue {
@@ -47,7 +47,7 @@ class CalculatorViewController: UIViewController {
         }
     }
 
-    fileprivate var displayValue: Double? {
+    private var displayValue: Double? {
         get {
             if let text = display.text,
                 let value = formatter.number(from: text)?.doubleValue {
@@ -68,9 +68,9 @@ class CalculatorViewController: UIViewController {
     }
 
     
-    fileprivate var brain = CalculatorBrain()
+    private var brain = CalculatorBrain()
     
-    @IBAction fileprivate func performOperation(_ sender: UIButton) {
+    @IBAction private func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
             if let value = displayValue{
                 brain.setOperand(value)

@@ -28,8 +28,8 @@ class ImageCollectionViewController: UICollectionViewController {
         }
     }
     
-    fileprivate var images = [TweetMedia]()
-    fileprivate var cache = NSCache<AnyObject, AnyObject>()
+    private var images = [TweetMedia]()
+    private var cache = NSCache<AnyObject, AnyObject>()
     
     var predefinedWidth:CGFloat {return floor(((collectionView?.bounds.width)! -
         FlowLayout.minimumColumnSpacing * (FlowLayout.ColumnCount - 1.0 ) -
@@ -37,7 +37,7 @@ class ImageCollectionViewController: UICollectionViewController {
     
     var sizePredefined:CGSize {return CGSize(width: predefinedWidth, height: predefinedWidth) }
     
-    fileprivate struct FlowLayout {
+    private struct FlowLayout {
         static let MinImageCellWidth: CGFloat = 60
         
         static let ColumnCount:CGFloat = 3
@@ -48,7 +48,7 @@ class ImageCollectionViewController: UICollectionViewController {
 
     }
     
-    fileprivate struct Storyboard {
+    private struct Storyboard {
         static let CellReuseIdentifier = "Image Cell"
         static let SegueIdentifier = "Show Tweet"
      }
@@ -78,7 +78,7 @@ class ImageCollectionViewController: UICollectionViewController {
     }
     
     //MARK: - Настройка Layout CollectionView
-    fileprivate func setupLayout(){
+    private func setupLayout(){
         let layoutFlow = UICollectionViewFlowLayout()
         
         // Меняем атрибуты для FlowLayout
@@ -158,7 +158,7 @@ class ImageCollectionViewController: UICollectionViewController {
    
     // MARK: - Navigation
     
-    @IBAction fileprivate func toRootViewController(_ sender: UIBarButtonItem) {
+    @IBAction private func toRootViewController(_ sender: UIBarButtonItem) {
        _ = navigationController?.popToRootViewController(animated: true)
     }
     // MARK: - Navigation

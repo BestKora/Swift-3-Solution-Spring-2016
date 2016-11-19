@@ -18,7 +18,7 @@ class ImageTableViewCell: UITableViewCell {
         didSet {updateUI()}
     }
     
-    fileprivate func updateUI() {
+    private func updateUI() {
         if let url = imageUrl {
             spinner?.startAnimating()
             

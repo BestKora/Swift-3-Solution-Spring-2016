@@ -13,7 +13,6 @@
 		E40D9B951CFBE78B0087553A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E40D9B931CFBE78B0087553A /* LaunchScreen.storyboard */; };
 		E40D9B9E1CFBE8120087553A /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40D9B9D1CFBE8120087553A /* CalculatorViewController.swift */; };
 		E40D9BA01CFBE82D0087553A /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40D9B9F1CFBE82D0087553A /* CalculatorBrain.swift */; };
-		E424713F1D226CD800BB266E /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E424713E1D226CD800BB266E /* GraphView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +24,6 @@
 		E40D9B961CFBE78B0087553A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E40D9B9D1CFBE8120087553A /* CalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		E40D9B9F1CFBE82D0087553A /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
-		E424713E1D226CD800BB266E /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +59,6 @@
 				E40D9B9D1CFBE8120087553A /* CalculatorViewController.swift */,
 				E40D9B8E1CFBE78B0087553A /* Main.storyboard */,
 				E40D9B9F1CFBE82D0087553A /* CalculatorBrain.swift */,
-				E424713E1D226CD800BB266E /* GraphView.swift */,
 				E40D9B9C1CFBE7C20087553A /* Supporting Files */,
 			);
 			path = Calculator;
@@ -153,7 +150,6 @@
 				E40D9BA01CFBE82D0087553A /* CalculatorBrain.swift in Sources */,
 				E40D9B9E1CFBE8120087553A /* CalculatorViewController.swift in Sources */,
 				E40D9B8B1CFBE78B0087553A /* AppDelegate.swift in Sources */,
-				E424713F1D226CD800BB266E /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

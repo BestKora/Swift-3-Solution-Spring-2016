@@ -30,7 +30,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
     // затем размещаем блок, возвращающий нас в main queue
     //   для размещения image на UI
     //   (так как нам не разрешено что-то делать с UI где-то еще, кроме main queue)
-    fileprivate func fetchImage()
+   private func fetchImage()
     {
         autoZoomed = true
         if let url = imageURL {
@@ -64,7 +64,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
     
   
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    @IBOutlet fileprivate weak var scrollView: UIScrollView! {
+    @IBOutlet private weak var scrollView: UIScrollView! {
         didSet {
             scrollView.contentSize = imageView.frame.size // critical to set this!
             scrollView.delegate = self                    // обязателен для zooming
@@ -86,15 +86,15 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
     }
   
 
-    fileprivate var imageView = UIImageView()
-    fileprivate var autoZoomed = true
+    private var imageView = UIImageView()
+    private var autoZoomed = true
     
     // удобное вычисляемое свойство
     // это свойство "работает" всякий раз,когда мы устанавливаем image в imageView
     // мы можем делать такие вещи, как изменение размера imageView,
     //   установка свойства contentSize для scrollView
     //   и остановка spinner
-    fileprivate var image: UIImage? {
+    private var image: UIImage? {
         get { return imageView.image }
         set {
             imageView.image = newValue
@@ -135,7 +135,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
     
     // Рассчитывает zoom масштаб для "подгонки" изображения к размеру экрана,
     // но без пустых (белых) зазоров
-    fileprivate func zoomScaleToFit()
+   private func zoomScaleToFit()
     {
     // если мы все еще в режиме "подгонки" (autoZoomed), то устанавливаем 
     // свойство zoomScale только при условии, что геометрия полностью загружена

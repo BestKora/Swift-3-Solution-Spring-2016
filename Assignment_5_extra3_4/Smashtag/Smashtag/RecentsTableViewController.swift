@@ -23,10 +23,10 @@ class RecentsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    fileprivate struct Storyboard {
-        fileprivate static let RecentCell = "Recent Cell"
-        fileprivate static let TweetsSegue = "Show Tweets from Recent"
-        fileprivate static let PopularSegueIdentifier = "ShowPopularMensions"
+    private struct Storyboard {
+        static let RecentCell = "Recent Cell"
+        static let TweetsSegue = "Show Tweets from Recent"
+        static let PopularSegueIdentifier = "ShowPopularMensions"
     }
     
     // MARK: - UITableViewDataSource

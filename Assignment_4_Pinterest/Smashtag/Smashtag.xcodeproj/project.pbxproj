@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E4190ACB1DE0533000836B0A /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4190ACA1DE0533000836B0A /* Twitter.framework */; };
+		E4190ACC1DE0533000836B0A /* Twitter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4190ACA1DE0533000836B0A /* Twitter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E43BB2AA1D3E039400A49741 /* RecentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43BB2A91D3E039400A49741 /* RecentsTableViewController.swift */; };
 		E43BB2B01D3E7E0C00A49741 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43BB2AF1D3E7E0C00A49741 /* WebViewController.swift */; };
-		E48ED0C71DA60A32005E4144 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48ED0C61DA60A32005E4144 /* Twitter.framework */; };
-		E48ED0C81DA60A32005E4144 /* Twitter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E48ED0C61DA60A32005E4144 /* Twitter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E4AEAEFA1D3FB9750077AAA6 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AEAEF81D3FB9750077AAA6 /* ImageCollectionViewCell.swift */; };
 		E4AEAEFB1D3FB9750077AAA6 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AEAEF91D3FB9750077AAA6 /* ImageCollectionViewController.swift */; };
 		E4AEAEFD1D3FBB0E0077AAA6 /* WaterfallCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AEAEFC1D3FBB0E0077AAA6 /* WaterfallCollectionViewLayout.swift */; };
@@ -33,7 +33,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E48ED0C81DA60A32005E4144 /* Twitter.framework in Embed Frameworks */,
+				E4190ACC1DE0533000836B0A /* Twitter.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,9 +41,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E4190ACA1DE0533000836B0A /* Twitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Twitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E43BB2A91D3E039400A49741 /* RecentsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentsTableViewController.swift; sourceTree = "<group>"; };
 		E43BB2AF1D3E7E0C00A49741 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		E48ED0C61DA60A32005E4144 /* Twitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Twitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AEAEF81D3FB9750077AAA6 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		E4AEAEF91D3FB9750077AAA6 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
 		E4AEAEFC1D3FBB0E0077AAA6 /* WaterfallCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E48ED0C71DA60A32005E4144 /* Twitter.framework in Frameworks */,
+				E4190ACB1DE0533000836B0A /* Twitter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +99,7 @@
 		ECB7137B1CCEE7D200DB951A = {
 			isa = PBXGroup;
 			children = (
-				E48ED0C61DA60A32005E4144 /* Twitter.framework */,
+				E4190ACA1DE0533000836B0A /* Twitter.framework */,
 				ECB713861CCEE7D200DB951A /* Smashtag */,
 				ECB713851CCEE7D200DB951A /* Products */,
 			);

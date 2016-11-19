@@ -23,6 +23,7 @@ class BreakoutView: UIView {
             }
         }
     }
+    
     var realGravity: Bool = false {
         didSet {
             updateRealGravity()
@@ -32,7 +33,7 @@ class BreakoutView: UIView {
      var behavior = BreakoutBehavior()
      var bricks =  [Int:BrickView]()
      var balls: [BallView]  {return self.behavior.balls}
-    var gravityMagnitudeModifier:CGFloat = 0.0 {
+     var gravityMagnitudeModifier:CGFloat = 0.0 {
         didSet {
             behavior.gravityMagnitudeModifier = gravityMagnitudeModifier
         }
@@ -88,11 +89,12 @@ class BreakoutView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         resetPaddlePosition()
         // Помещаем balls обратно в breakoutView после автовращения
         for ball in balls {
             if !self.bounds.contains(ball.frame) {
-                placeBallBack(ball)
+                placeBallBack(ball: ball)
             }
         }
     }
@@ -107,56 +109,57 @@ class BreakoutView: UIView {
     
     func reset(){
         removeBricks()
-        removeAllBalls()
+        removeAllBallsFromGame()
         createBricks()
         resetPaddleInCenter()
     }
     
     // MARK: - BALLS
     
-    func addBall() {
+    func addBallToGame() {
         let ball = BallView(frame: CGRect(origin: CGPoint(x: paddle.center.x,
                                 y: paddle.frame.minY - Constants.BallSize.height),
                              size: Constants.BallSize))
-        self.behavior.addBall(ball)
-        behavior.launchBall(ball, magnitude: launchSpeed)
+        self.behavior.addBall(ball: ball)
+        behavior.launchBall(ball: ball, magnitude: launchSpeed)
     }
     
-    func removeBall(_ ball: BallView){
-        self.behavior.removeBall(ball)
+    func removeBallFromGame(_ ball: BallView){
+        self.behavior.removeBall(ball: ball)
     }
     
-    func removeAllBalls(){
+    func removeAllBallsFromGame(){
         behavior.removeAllBalls()
     }
     
     func pushBalls(){
         for ball in balls {
-            behavior.launchBall(ball, magnitude: Constants.pushSpeed)
+            behavior.launchBall(ball: ball, magnitude: Constants.pushSpeed)
         }
     }
     
-    private func placeBallBack(_ ball: UIView) {
+    private func placeBallBack(ball: UIView) {
  
         ball.center = CGPoint(x: self.paddle.center.x,
                               y: self.paddle.center.y - paddle.bounds.height * 3)
         animator.updateItem(usingCurrentState: ball)
     }
     
-    var ballVelocity: [CGPoint]
+    var ballsVelocities: [CGPoint]
         {
         get {
-            var ballVelocityLoc = [CGPoint]()
+            var ballsVelocitiesLoc = [CGPoint]()
             for ball in balls {
-                ballVelocityLoc.append(behavior.stopBall(ball))
+                ballsVelocitiesLoc.append(behavior.stopBall(ball: ball))
             }
-            return ballVelocityLoc
+            return ballsVelocitiesLoc
         }
         set {
-            var ballVelocityLoc = newValue as [CGPoint]
+            var ballsVelocitiesLoc = newValue as [CGPoint]
             if !newValue.isEmpty {
                 for i in 0..<balls.count {
-                    behavior.startBall(behavior.balls[i], velocity: ballVelocityLoc[i])
+                    behavior.reStartBall(ball: behavior.balls[i],
+                                         velocity: ballsVelocitiesLoc[i])
                 }
             }
         }
@@ -165,33 +168,32 @@ class BreakoutView: UIView {
     // MARK: - BRICKS
     
     private func createBricks() {
-        if let arrangement = level {
-            
-            if arrangement.count == 0 { return }    // нет строк
-            if arrangement[0].count == 0 { return } // нет столбцов
-            
-            let rows = arrangement.count
-            let columns = arrangement[0].count
-            let width = (self.bounds.size.width -
-                             2 * Constants.BrickSpacing) / CGFloat(columns)
-            
-            for row in 0 ..< rows {
-                let columns = arrangement[row].count
-                for column in 0 ..< columns {
-                    if arrangement[row][column] == 0 { continue }
-                    
-                    let x = Constants.BrickSpacing + CGFloat(column) * width
-                    let y = Constants.BricksTopSpacing +
-                            CGFloat(row) * Constants.BrickHeight +
-                            CGFloat(row) * Constants.BrickSpacing * 2
-                    let hue = CGFloat(row) / CGFloat(rows)
-                    createBrick(width, x: x, y: y, hue: hue)
-                }
+        guard let arrangement = level,
+            arrangement.count > 0,    // есть строки
+            arrangement[0].count > 0  // есть столбцы
+            else {return}
+        
+        let rows = arrangement.count
+        let columns = arrangement[0].count
+        let width = (self.bounds.size.width - 2 * Constants.BrickSpacing) / CGFloat(columns)
+        
+        for row in 0 ..< rows {
+            let columns = arrangement[row].count
+            for column in 0 ..< columns {
+                if arrangement[row][column] == 0 { continue }
+                
+                let x = Constants.BrickSpacing + CGFloat(column) * width
+                let y = Constants.BricksTopSpacing +
+                    CGFloat(row) * Constants.BrickHeight +
+                    CGFloat(row) * Constants.BrickSpacing * 2
+                let hue = CGFloat(row) / CGFloat(rows)
+                createNewBrick(width: width, x: x, y: y, hue: hue)
             }
         }
     }
+
     
-    private func createBrick(_ width: CGFloat, x: CGFloat, y: CGFloat, hue: CGFloat) {
+    private func createNewBrick(width: CGFloat, x: CGFloat, y: CGFloat, hue: CGFloat) {
         var frame = CGRect(origin: CGPoint(x: x, y: y),
                              size: CGSize(width: width, height: Constants.BrickHeight))
         frame = frame.insetBy(dx: Constants.BrickSpacing, dy: 0)
@@ -206,7 +208,7 @@ class BreakoutView: UIView {
     }
     
     
-  func removeBrick(_ brickIndex: Int) {
+  func removeBrickFromGame(brickIndex: Int) {
         behavior.removeBoundary(brickIndex as NSCopying)
         
         if let brick = bricks[brickIndex] {
@@ -226,7 +228,7 @@ class BreakoutView: UIView {
         }
     }
     
-    private func removeBrickWithoutAnimation(_ brickIndex: Int) {
+    private func removeBrick(brickIndex: Int) {
         behavior.removeBoundary(brickIndex as NSCopying)
         
         if let brick = bricks[brickIndex] {
@@ -242,7 +244,7 @@ class BreakoutView: UIView {
         for brick in bricks {
             let index = brick.0
             if  !activeBricksSet.contains(index) {
-                removeBrickWithoutAnimation(brick.0)
+                removeBrick(brickIndex: brick.0)
             }
         }
     }
@@ -250,7 +252,7 @@ class BreakoutView: UIView {
     private func removeBricks() {
         if bricks.count == 0 {return}
         for brick in bricks {
-            removeBrickWithoutAnimation(brick.0)
+            removeBrick(brickIndex: brick.0)
         }
     }
     
@@ -291,7 +293,7 @@ class BreakoutView: UIView {
                              named: Constants.paddleBoundaryId as NSCopying)
     }
     
-    //---- ОБРАБОТКА ЖЕСТОВ
+    //---- ОБРАБОТКА ЖЕСТА pan
     
     func panPaddle(_ gesture: UIPanGestureRecognizer) {
         let gesturePoint = gesture.translation(in: self)

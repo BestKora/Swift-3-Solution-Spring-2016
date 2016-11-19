@@ -8,26 +8,6 @@
 
 import UIKit
 import CoreData
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class PopularityTableViewController: CoreDataTableViewController {
 
@@ -37,8 +17,8 @@ class PopularityTableViewController: CoreDataTableViewController {
     var moc: NSManagedObjectContext? { didSet { updateUI() } }
     var resultsController: NSFetchedResultsController<Mension>!
     
-    fileprivate func updateUI() {
-        if let context = moc , mention?.characters.count > 0 {
+    private func updateUI() {
+        if let context = moc ,let mensionString = mention, mensionString.characters.count > 0 {
             let request = NSFetchRequest<Mension>(entityName: "Mension")
             request.predicate = NSPredicate(format: "term.term contains[c] %@ AND count > %@",
                                                                                 mention!, "1")
@@ -66,7 +46,7 @@ class PopularityTableViewController: CoreDataTableViewController {
         }
     }
     
-    fileprivate struct Storyboard {
+    private struct Storyboard {
         static let CellIdentifier = "PopularMentionsCell"
         static let SegueToMainTweetTableView = "ToMainTweetTableView"
     }
@@ -99,7 +79,7 @@ class PopularityTableViewController: CoreDataTableViewController {
         }
     }
 
-    @IBAction fileprivate func toRootViewController(_ sender: UIBarButtonItem) {
+    @IBAction private func toRootViewController(_ sender: UIBarButtonItem) {
         
        _ =  navigationController?.popToRootViewController(animated: true)
     }

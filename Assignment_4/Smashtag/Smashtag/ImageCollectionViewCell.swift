@@ -21,8 +21,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    fileprivate var imageURL: URL?
-    fileprivate var image: UIImage? {
+    private var imageURL: URL?
+    private var image: UIImage? {
         get { return imageView.image }
         set {
             imageView.image = newValue
@@ -30,7 +30,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    fileprivate func fetchImage() {
+    private func fetchImage() {
         if let url = imageURL {
             spinner?.startAnimating()
             let imageData = cache?.object(forKey: url as AnyObject) as? Data
@@ -50,6 +50,4 @@ class ImageCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    
-    
 }

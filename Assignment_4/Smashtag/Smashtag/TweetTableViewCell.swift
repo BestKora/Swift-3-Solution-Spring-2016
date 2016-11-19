@@ -28,7 +28,7 @@ class TweetTableViewCell: UITableViewCell
         static let userColor = UIColor.orange
     }
     
-    fileprivate func updateUI()
+    private func updateUI()
     {
         // переустанавливаем информацию существующего твита
         tweetTextLabel?.attributedText = nil
@@ -47,7 +47,7 @@ class TweetTableViewCell: UITableViewCell
         }
     }
     
-    fileprivate func setTextLabel(_ tweet: Tweet) -> NSMutableAttributedString {
+    private func setTextLabel(_ tweet: Tweet) -> NSMutableAttributedString {
         var tweetText:String = tweet.text
         for _ in tweet.media {tweetText += " 📷"}
         
@@ -60,7 +60,7 @@ class TweetTableViewCell: UITableViewCell
         return attribText
     }
     
-    fileprivate func setCreatedLabel(_ tweet: Tweet) -> String {
+    private func setCreatedLabel(_ tweet: Tweet) -> String {
         let formatter = DateFormatter()
         if Date().timeIntervalSince(tweet.created) > 24*60*60 {
             formatter.dateStyle = DateFormatter.Style.short
@@ -70,7 +70,7 @@ class TweetTableViewCell: UITableViewCell
         return formatter.string(from: tweet.created)
     }
     
-    fileprivate func setProfileImageView(_ tweet: Tweet) {
+    private func setProfileImageView(_ tweet: Tweet) {
         if let profileImageURL = tweet.user.profileImageURL {
             DispatchQueue.global(qos: .userInitiated).async {
                 let contentsOfURL = try? Data(contentsOf: profileImageURL)

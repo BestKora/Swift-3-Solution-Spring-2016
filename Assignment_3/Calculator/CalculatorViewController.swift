@@ -17,23 +17,23 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
             graph.isEnabled = false
         }
     }
-    fileprivate struct Storyboard{
+    private struct Storyboard{
         static let ShowGraph = "Show Graph"
     }
     
-    fileprivate var userIsInTheMiddleOfTyping = false
+    private var userIsInTheMiddleOfTyping = false
     let decimalSeparator = formatter.decimalSeparator ?? "."
     
-    @IBAction fileprivate func touchDigit(_ sender: UIButton) {
+    @IBAction private func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
-//----- Уничтожаем лидирующие нули -----------------
+            //----- Уничтожаем лидирующие нули -----------------
             if (digit == "0") && ((display.text == "0") || (display.text == "-0")){ return }
             if (digit !=  decimalSeparator) && ((display.text == "0") || (display.text == "-0"))
             { display.text = digit ; return }
-//--------------------------------------------------
-
+            //--------------------------------------------------
+            
             if (digit != decimalSeparator) || (textCurrentlyInDisplay.range(of: decimalSeparator) == nil) {
                 display.text = textCurrentlyInDisplay + digit
             }
@@ -43,7 +43,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         userIsInTheMiddleOfTyping = true
     }
     
-    fileprivate var resultValue: (Double, String?) = (0.0, nil) {
+    private var resultValue: (Double, String?) = (0.0, nil) {
         didSet {
             graph.isEnabled = !brain.isPartialResult
             switch resultValue {
@@ -56,7 +56,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
 
-    fileprivate var displayValue: Double? {
+    private var displayValue: Double? {
         get {
             if let text = display.text,
                 let value = formatter.number(from: text)?.doubleValue {
@@ -76,21 +76,21 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
 
-    fileprivate var brain = CalculatorBrain()
+    private var brain = CalculatorBrain()
     
-    fileprivate let defaults = UserDefaults.standard
-    fileprivate struct Keys {
+    private let defaults = UserDefaults.standard
+    private struct Keys {
         static let Program = "CalculatorViewController.Program"
     }
     
     typealias PropertyList = AnyObject
     
-    fileprivate var program: PropertyList? {
+    private var program: PropertyList? {
         get { return defaults.object(forKey: Keys.Program) as CalculatorViewController.PropertyList? }
         set { defaults.set(newValue, forKey: Keys.Program) }
     }
     
-    @IBAction fileprivate func performOperation(_ sender: UIButton) {
+    @IBAction private func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
             if let value = displayValue{
                 brain.setOperand(value)
@@ -173,7 +173,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
     }
     
-    fileprivate func prepareGraphVC(_ graphVC : GraphViewController){
+    private func prepareGraphVC(_ graphVC : GraphViewController){
         graphVC.navigationItem.title = brain.description
         graphVC.yForX = { [ weak weakSelf = self] x in
                      weakSelf?.brain.variableValues["M"] = x

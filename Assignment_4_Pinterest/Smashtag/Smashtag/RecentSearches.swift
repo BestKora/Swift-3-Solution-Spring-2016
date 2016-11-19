@@ -9,9 +9,9 @@
 import Foundation
 
 struct RecentSearches {
-    fileprivate static let defaults = UserDefaults.standard
-    fileprivate static let key = "RecentSearces"
-    fileprivate static let limit = 100
+    private static let defaults = UserDefaults.standard
+    private static let key = "RecentSearces"
+    private static let limit = 100
     
     static var searches: [String] {
         return (defaults.object(forKey: key) as? [String]) ?? []

@@ -9,26 +9,6 @@
 import UIKit
 import Twitter
 import CoreData
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate
 {
@@ -54,7 +34,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
     
     // MARK: Fetching Tweets
     
-    fileprivate var twitterRequest: Twitter.Request? {
+   private var twitterRequest: Twitter.Request? {
         if lastTwitterRequest == nil {
             if let query = searchText  , !query.isEmpty {
                 return Twitter.Request(search: query + " -filter:retweets", count: 100)
@@ -63,9 +43,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         return lastTwitterRequest?.requestForNewer
     }
     
-    fileprivate var lastTwitterRequest: Twitter.Request?
+    private var lastTwitterRequest: Twitter.Request?
 
-    @IBAction fileprivate func searchForTweets(_ sender: UIRefreshControl?)
+    @IBAction private func searchForTweets(_ sender: UIRefreshControl?)
     {
         if let request = twitterRequest {
             lastTwitterRequest = request
@@ -89,7 +69,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         }
     }
     
-    fileprivate func updateDatabase(_ newTweets: [Twitter.Tweet]) {
+    private func updateDatabase(_ newTweets: [Twitter.Tweet]) {
         moc?.perform {
             // более эффективный способ
             
@@ -108,7 +88,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         printDatabaseStatistics() 
     }
  
-    fileprivate func printDatabaseStatistics() {
+    private func printDatabaseStatistics() {
         moc?.perform {
             if let results = try? self.moc!.fetch(NSFetchRequest(entityName: "TweetM")) {
                 print("\(results.count) TweetMs")
@@ -121,7 +101,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         }
      }
 
-    fileprivate func searchForTweets () {
+    private func searchForTweets () {
         refreshControl?.beginRefreshing()
         searchForTweets(refreshControl)
     }
@@ -142,7 +122,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
     
     // MARK: Constants
     
-    fileprivate struct Storyboard {
+   private struct Storyboard {
         static let TweetCellIdentifier = "Tweet"
         static let MentionsIdentifier = "Show Mentions"
          static let ImagesIdentifier = "Show Images"
@@ -214,8 +194,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
                                           target: self,
                                           action: #selector(TweetTableViewController.showImages(_:)))
         navigationItem.rightBarButtonItems = [imageButton]
-        if navigationController?.viewControllers.count > 1 {
-            
+        if let navCont = navigationController,
+               navCont.viewControllers.count > 1 {
             let stopBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
                                                     target: self,
                                                     action: #selector(TweetTableViewController.toRootViewController(_:)))
