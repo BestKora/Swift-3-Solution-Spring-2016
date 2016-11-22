@@ -112,7 +112,7 @@ class ImageCollectionViewController: UICollectionViewController {
         if let imageCell = cell as? ImageCollectionViewCell {
 
             imageCell.cache = cache
-            imageCell.tweetMedia = images[(indexPath as NSIndexPath).row]
+            imageCell.tweetMedia = images[indexPath.row]
         }
             return cell
     }
@@ -126,9 +126,9 @@ class ImageCollectionViewController: UICollectionViewController {
                   moveItemAt sourceIndexPath: IndexPath,
                            to destinationIndexPath: IndexPath) {
         
-        let temp = images[(destinationIndexPath as NSIndexPath).row]
-        images[(destinationIndexPath as NSIndexPath).row] = images[(sourceIndexPath as NSIndexPath).row]
-        images[(sourceIndexPath as NSIndexPath).row] = temp
+        let temp = images[destinationIndexPath.row]
+        images[destinationIndexPath.row] = images[sourceIndexPath.row]
+        images[sourceIndexPath.row] = temp
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -138,7 +138,7 @@ class ImageCollectionViewController: UICollectionViewController {
                         layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
-        let ratio = CGFloat(images[(indexPath as NSIndexPath).row].media.aspectRatio)
+        let ratio = CGFloat(images[indexPath.row].media.aspectRatio)
         var sizeSetting =  sizePredefined
         if let layoutFlow = collectionViewLayout as? UICollectionViewFlowLayout {
             let maxCellWidth = collectionView.bounds.size.width  -

@@ -43,7 +43,7 @@ class RecentsTableViewController: UITableViewController {
              cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.RecentCell,
                                           for: indexPath) as UITableViewCell
-        cell.textLabel?.text = recentSearches[(indexPath as NSIndexPath).row]
+        cell.textLabel?.text = recentSearches[indexPath.row]
         return cell
     }
     
@@ -56,7 +56,7 @@ class RecentsTableViewController: UITableViewController {
         if editingStyle == .delete {
             // уничтожаем строку из data source
             
-            RecentSearches.removeAtIndex((indexPath as NSIndexPath).row)
+            RecentSearches.removeAtIndex(indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }

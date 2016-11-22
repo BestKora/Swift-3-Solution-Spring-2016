@@ -97,7 +97,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.TweetCellIdentifier,
                                                                        for: indexPath)
 
-        let tweet = tweets[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
+        let tweet = tweets[indexPath.section][indexPath.row]
         
         if let tweetCell = cell as? TweetTableViewCell {
             tweetCell.tweet = tweet

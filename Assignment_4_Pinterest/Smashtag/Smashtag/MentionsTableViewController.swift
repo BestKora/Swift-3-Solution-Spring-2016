@@ -94,7 +94,7 @@ class MentionsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt
                                   indexPath: IndexPath) -> UITableViewCell {
         
-        let mention = mentionSections[(indexPath as NSIndexPath).section].mentions[(indexPath as NSIndexPath).row]
+        let mention = mentionSections[indexPath.section].mentions[indexPath.row]
         
         switch mention {
         case .keyword(let keyword):
@@ -116,7 +116,7 @@ class MentionsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                       heightForRowAt indexPath: IndexPath) -> CGFloat {
                             
-        let mention = mentionSections[(indexPath as NSIndexPath).section].mentions[(indexPath as NSIndexPath).row]
+        let mention = mentionSections[indexPath.section].mentions[indexPath.row]
         switch mention {
         case .image(_, let ratio):
             return tableView.bounds.size.width / CGFloat(ratio)
@@ -143,7 +143,7 @@ class MentionsTableViewController: UITableViewController {
         if identifier == Storyboard.KeywordSegue {
             if let cell = sender as? UITableViewCell,
                let indexPath =  tableView.indexPath(for: cell)
-                         , mentionSections[(indexPath as NSIndexPath).section].type == "URLs" {
+                         , mentionSections[indexPath.section].type == "URLs" {
                 /*    if let urlString = cell.textLabel?.text,
                          let url = NSURL(string:urlString) {
                              let safariVC = SFSafariViewController(URL: url)
