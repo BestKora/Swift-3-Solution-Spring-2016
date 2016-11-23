@@ -15,11 +15,11 @@ class PopularityTableViewController: CoreDataTableViewController {
     
     var mention: String? { didSet { updateUI() } }
     var moc: NSManagedObjectContext? { didSet { updateUI() } }
-    var resultsController: NSFetchedResultsController<Mension>!
     
     private func updateUI() {
         if let context = moc ,let mensionString = mention, mensionString.characters.count > 0 {
-            let request = NSFetchRequest<Mension>(entityName: "Mension")
+            
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Mension")
             request.predicate = NSPredicate(format: "term.term contains[c] %@ AND count > %@",
                                                                                 mention!, "1")
             request.sortDescriptors = [NSSortDescriptor(
@@ -34,13 +34,12 @@ class PopularityTableViewController: CoreDataTableViewController {
                     ascending: true,
                     selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
                 )]
-            resultsController = NSFetchedResultsController(
+            fetchedResultsController = NSFetchedResultsController(
                 fetchRequest: request,
                 managedObjectContext: context,
                 sectionNameKeyPath: "type",
                 cacheName: nil
             )
-            fetchedResultsController =  resultsController as? NSFetchedResultsController<NSFetchRequestResult>? ?? nil
         } else {
             fetchedResultsController = nil
         }
